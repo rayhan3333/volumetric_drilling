@@ -1,7 +1,7 @@
 enclosure size: {length: 10.0, width: 10.0, height: 3.0}
 lights: [light1]
-cameras: [main_camera]
-# cameras: [main_camera, cameraL, cameraR]
+#cameras: [main_camera]
+cameras: [main_camera, cameraL, cameraR]
 environment: ./checkered_floor.yaml
 namespace: /ambf/env/
 max iterations: 50
@@ -45,12 +45,18 @@ light3:
 main_camera:
   namespace: cameras/
   name: main_camera
-  location: {x: 0.0, y: 0.0, z: 0.0}
-  look at: {x: -0.3, y: 0.0, z: 0.0}
+  location: {x: 0.0, y: 0.0, z: -10.0}
+  orientation: {r: 0.0, p: 1.57, y: 0.0}
+  look at: {x: 0.0, y: 0.0, z: 1.0}
   # up: {x: 0.0, y: 0.4, z: 1.0}
   up: {x: 0.0, y: 0.0, z: 1.0}
-  clipping plane: {near: 0.001, far: 50.0}
-  field view angle: 0.2
+
+  camera intrinsics: {fx: 475.77, fy: 475.77, cx: 324.19, cy: 176.28, s: 0.}
+  # clipping plane: {near: 0.001, far: 50.0}
+  # #field view angle: 1.227
+  # field view angle: .78
+
+  resolution: {width: 640, height: 360}
   monitor: 0
   # multipass: true
   visible: true
@@ -75,12 +81,18 @@ main_camera:
 cameraL:
   namespace: cameras/
   name: cameraL
-  location: {x: 0.0, y: -0.3, z: 0.0}
-  look at: {x: -0.3, y: 0.0, z: 0.0}
+  location: {x: 0.0, y: 0.0, z: 0.0}
+  look at: {x: 0.0, y: 0.0, z: 0.3}
   up: {x: 0.0, y: 0.0, z: 1.0}
-  clipping plane: {near: 0.001, far: 50.0}
-  field view angle: 0.3
+  camera intrinsics: {fx: 475.77, fy: 475.77, cx: 324.19, cy: 176.28, s: 0.}
+
+  # clipping plane: {near: 0.001, far: 50.0}
+  # #field view angle: 1.227
+  # field view angle: .78
+
   monitor: 0
+  resolution: {width: 640, height: 360}
+
   # multipass: true
   publish image: true
   # visible: False
@@ -98,16 +110,30 @@ cameraL:
   #    vertex: shader.vs
   #    fragment: shader.fs
   parent: main_camera
+  left_cam_rostopic: &left_cam_rostopic "/zed2i/zed_node/left/image_rect_color"
+  plugins:
+    [
+      {
+        name: ar_ros_plugin,
+        path: ../../plugin/build/,
+        filename: libar_ros_plugin.so,
+      },
+    ]
+  ar-ros plugin config:
+    rostopic: *left_cam_rostopic
+    set_window_size_from_cam_info: True	
 
 cameraR:
   namespace: cameras/
   name: cameraR
-  location: {x: 0.0, y: 0.3, z: 0.0}
-  look at: {x: -0.3, y: 0.0, z: 0.0}
+  location: {x: 0.0, y: 0.0, z: 0.0}
+  look at: {x: 0.0, y: 0.0, z: 0.3}
   up: {x: 0.0, y: 0.0, z: 1.0}
   clipping plane: {near: 0.001, far: 50.0}
-  field view angle: 0.3
+  field view angle: 1.227
   monitor: 0
+  resolution: {width: 640, height: 360}
+
   # multipass: true
   # publish image: true
   # visible: False
@@ -125,3 +151,15 @@ cameraR:
   #    vertex: shader.vs
   #    fragment: shader.fs
   parent: main_camera
+  right_cam_rostopic: &right_cam_rostopic "/zed2i/zed_node/right/image_rect_color"
+  plugins:
+    [
+      {
+        name: ar_ros_plugin,
+        path: ../../plugin/build/,
+        filename: libar_ros_plugin.so,
+      },
+    ]
+  ar-ros plugin config:
+    rostopic: *right_cam_rostopic
+    set_window_size_from_cam_info: True	

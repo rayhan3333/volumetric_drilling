@@ -9,7 +9,9 @@ namespace: /ambf/env/
 
 BODY mastoidectomy_drill:
   name: mastoidectomy_drill
-  mesh: 6mm.OBJ
+  mesh: 4mm.OBJ
+  #mesh: origin_drill2.OBJ
+
   collision mesh type: CONCAVE_MESH
   mass: 0.0
   inertia:
@@ -17,7 +19,7 @@ BODY mastoidectomy_drill:
     iy: 0.0
     iz: 0.0
   collision margin: 0.001
-  scale: 10.0 # this is probably not the right scale now, need to double check?
+  scale: 1.4 # this is probably not the right scale now, need to double check?
   location:
     position:
       x: 0.0

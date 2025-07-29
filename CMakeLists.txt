@@ -87,3 +87,9 @@ set_property(TARGET volumetric_drilling PROPERTY POSITION_INDEPENDENT_CODE TRUE)
 add_library(camera_hmd plugin/camera_hmd/hmd.cpp plugin/camera_hmd/hmd.h)
 target_link_libraries(camera_hmd ${AMBF_LIBRARIES})
 set_property(TARGET camera_hmd PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+add_library(ar_ros_plugin SHARED
+ plugin/ar_ros_plugin/ar_ros_plugin.cpp 
+ plugin/ar_ros_plugin/ar_ros_plugin.h)
+target_link_libraries(ar_ros_plugin ${AMBF_LIBRARIES})
+set_property(TARGET ar_ros_plugin PROPERTY POSITION_INDEPENDENT_CODE TRUE)
